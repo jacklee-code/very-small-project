@@ -1,8 +1,15 @@
-LN001;Classroom of the Elite;Syougo Kinugasa;True;NONE
+LN001;Classroom of the Elite;Syougo Kinugasa;False;jack
 CM001;Attack on Titan;Hajime Isayama;True;NONE
-DS001;Machine Learning;Andrew Ng;True;NONE
+DS001;Machine Learning;Andrew Ng;False;jack
 DS002;Deep Learning;Ian Goodfellow;True;NONE
-DS003;DeepLearning.AI TensorFlow Developer;Laurence Moroney;True;NONE
+DS003;DeepLearning.AI TensorFlow Developer;Laurence Moroney;False;jack
 DS004;Generative Adversarial Networks with Industrial Use Cases;Navin K Manaswi;True;NONE
 SD001;Data Structures and Algorithms With C;Mayank Patel;True;NONE
 SD002;The Algorithm Design Manual;Steven S. Skiena;True;NONE
+FN001;Harry Potter and the Philosopher's Stone;J. K. Rowling;True;NONE
+FN002;Harry Potter and the Chamber of Secrets;J. K. Rowling;True;NONE
+FN003;Harry Potter and the Prisoner of Azkaban;J. K. Rowling;True;NONE
+FN004;Harry Potter and the Goblet of Fire;J. K. Rowling;True;NONE
+FN005;Harry Potter and the Order of the Phoenix;J. K. Rowling;True;NONE
+FN006;Harry Potter and the Half-Blood Prince;J. K. Rowling;True;NONE
+FN007;Harry Potter and the Deathly Hallows;J. K. Rowling;True;NONE

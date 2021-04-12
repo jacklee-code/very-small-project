@@ -16,7 +16,8 @@ class OutputRule:
                       'Borrowed User'.center(WIDTH_OF_EACH_COLUMN[4])]
 
     @classmethod
-    def printLibraryHeader(cls):
+    def getLibraryHeader(cls):
+        temp = ''
         for column in cls.LIBRARY_HEADER:
-            print(f'|{column}', end='')
-        print('|')
+            temp += f'|{column}'
+        return temp + '|\n'

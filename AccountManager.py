@@ -4,7 +4,6 @@ import RuleManager
 from LibraryManager import Library
 from os import path
 
-debug = True
 
 class Account:
     # Data Structure
@@ -51,7 +50,7 @@ class Account:
     # Verification system ###############
     def register(self):
         #check if the user exists
-        if path.exists(self.Username + RuleManager.DataRule.ACCOUNT_FILE_FORMAT) and not debug :
+        if path.exists(self.Username + RuleManager.DataRule.ACCOUNT_FILE_FORMAT) :
             print('User already exists (username : ' + self.Username + '). Please try again.')
             return False
         else:

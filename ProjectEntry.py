@@ -15,8 +15,8 @@
 # Return Book (OK) (TESTED)
 # Add Library List (OK)(TESTED)
 # Remove Library List (OK)(TESTED)
-# Save every important action  (OK)(TESTED)
-# Search Book By ID/Name (TODO)
+# Save every important action (OK) (TESTED)
+# Search Book By ID/Name/Author (OK) (TESTED)
 
 from AccountManager import Account
 from LibraryManager import Library
@@ -24,7 +24,7 @@ import RuleManager as rule
 
 ########## TEST FUNCTION #######################
 #This is for test and create account
-def test_Register():
+def test_register():
     while True:
         print('Register Test')
         account = Account()
@@ -48,28 +48,32 @@ def test_Login():
 
 
 ####This is just for me to test if my function works
-def main():
+def test():
     Library.loadLibrary()
-
     print(Library.getAllRecords())
     ac = test_Login()
 
+    ac.borrowBooks(['LN001', 'I am Error Book', 'DS001', 'DS003'])
+
     print('My current book')
-    rule.OutputRule.printLibraryHeader()
+    print(rule.OutputRule.getLibraryHeader())
     for i in ac.MyBookList:
         print(i.getRecord())
     print()
 
+    print('Search Book')
+    print(Library.getBookRecordByAuthor('RowLing'))
+################END test section#################################
 
-    print('My current book')
-    rule.OutputRule.printLibraryHeader()
-    for i in ac.MyBookList:
-        print(i.getRecord())
-    print()
-
-    print('All Books')
-    print(Library.getAllRecords())
+def main():
+    #TODO : Your Code Here
+    #Test account : Jack
+    #Test password : a
+    #Your can register your own account by using register() function in AccountManager.Account
+    #Or you can just  use my test function -- test_register() to quickly create an account
+    pass
 
 if __name__ == '__main__':
-    main()
-################END test section#################################
+    #TODO : Please change test() to main()
+    #NOTE: test() is only used to test the correctness of the function for me
+    test()

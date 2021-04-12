@@ -28,8 +28,7 @@ class Library:
 
     @classmethod
     def getAllRecords(cls):
-        outputStr = ''
-        rule.OutputRule.printLibraryHeader()
+        outputStr = rule.OutputRule.getLibraryHeader()
         for book in cls.BookList:
             outputStr += book.getRecord() + '\n'
         return outputStr
@@ -44,6 +43,30 @@ class Library:
             if book.ID == id:
                 return book
         return None
+
+    @classmethod
+    def getBookRecordByName(cls, bookname : str):
+        records = rule.OutputRule.getLibraryHeader()
+        for book in cls.BookList:
+            if bookname.lower() in book.Name.lower():
+                records += book.getRecord() + '\n'
+        return records[:-1] #Remove the last \n
+
+    @classmethod
+    def getBookRecordByAuthor(cls, author : str):
+        records = rule.OutputRule.getLibraryHeader()
+        for book in cls.BookList:
+            if author.lower() in book.Author.lower():
+                records += book.getRecord() + '\n'
+        return records[:-1]  # Remove the last \n
+
+    @classmethod
+    def getBookRecordByID(cls, id : str):
+        records = rule.OutputRule.getLibraryHeader()
+        for book in cls.BookList:
+            if id.lower() in book.ID.lower():
+                records += book.getRecord() + '\n'
+        return records[:-1]  # Remove the last \n
 
     #Register the book ownership and status - do not use it in Borrow System!!!!!!!!!!!!! Use Account.borrowBooks()
     @classmethod
