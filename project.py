@@ -20,7 +20,10 @@
 
 from AccountManager import Account
 from LibraryManager import Library
+from collections import OrderedDict
+
 import RuleManager as rule
+import os
 
 
 ########## TEST FUNCTION #######################
@@ -28,21 +31,21 @@ import RuleManager as rule
 def register():
     while True:
         account = Account()
-        account.Username = input('Please input username : ')
-        account.Password = input('Please input password : ')
+        account.Username = input('Username : ')
+        account.Password = input('Password : ')
         if account.register():
-            print('Register OK')
+            print('Registration Success.')
             return account
 
 
 def login():
     while True:
         account = Account()
-        ac = input('Please input username : ')
-        pw = input('Please input password : ')
+        ac = input('Username : ')
+        pw = input('Password : ')
         if account.login(ac, pw):
             return account
-        print('Login Fail. Please Retry')
+        print('Login Fail. Please Retry\n')
 
 
 ###############################################
@@ -68,15 +71,33 @@ def test():
 
 ################END test section#################################
 
-menu = [
-    "1. Book list",
-    "2. Search",
-    "3. Borrow",
-    "4. Return",
-    "5. Add book to library",
-    "6. Remove book from library",
-    "7. Exit"
-]
+login_menu = {
+    "Register": "1",
+    "Login": "2",
+    "Login with test account": "3",
+}
+
+main_menu = {
+    "Book list": "1",
+    "Show my books": "2",
+    "Search": "3",
+    "Borrow": "4",
+    "Return": "5",
+    "Add book to library": "6",
+    "Remove book from library": "7",
+    "Exit": "8"
+}
+
+search_menu = {
+    "Search by book ID": "1",
+    "Search by book name": "2",
+    "Search by book author": "3",
+    "Quit searching": "4",
+}
+
+login_menu = OrderedDict(login_menu.items())
+main_menu = OrderedDict(main_menu.items())
+search_menu = OrderedDict(search_menu.items())
 
 
 def getAccountBy(action_code):
@@ -87,7 +108,7 @@ def getAccountBy(action_code):
     elif action_code == '3':
         return testAccountLogin()
     else:
-        print("Please enter a valid action code.")
+        print("Please enter a valid command.")
         return None
 
 
@@ -99,33 +120,27 @@ def testAccountLogin():
 
 def showLoginMenu():
     print("Welcome User")
-    print("1. Register")
-    print("2. Login")
-    print("3. Login with test account\n")
+    for key, value in login_menu.items():
+        print(f'{value}.{key}')
+    print()
 
 
 def showMainMenu():
     print('--------------------------')
-    for operation in menu:
-        print(operation)
+    for key, value in main_menu.items():
+        print(f'{value}.{key}')
     print()
 
 
 def showSearchMenu():
-    print('1. Search by book ID')
-    print('2. Search by book name')
-    print('3. Search by book author')
-    print('4. Quit searching')
-    print('--------------------------')
+    for key, value in search_menu.items():
+        print(f'{value}.{key}')
+    print()
 
 
 def searchBookByID():
     book_id = input("Book ID to search: ")
-    if Library.isBookExist(book_id):
-        book = Library.getBookByID(book_id)
-        print(book.getRecord())
-    else:
-        print("No such book found.")
+    print(Library.getBookRecordByID(book_id))
 
 
 def searchBookByName():
@@ -153,27 +168,34 @@ def handleSearch():
             end_search = True
         else:
             print("Please enter valid search mode.")
+        print('--------------------------')
 
 
 def handleBorrow(account):
-    id_str = input("IDs of the book (you may use comma to separate IDs)")
+    print("Use comma to separate IDs if more than one book is involved.")
+    id_str = input("IDs of the book you would like to return: ").upper()
     id_str = id_str.replace(' ', '')
     id_list = id_str.split(',')
     account.borrowBooks(id_list)
+    showUerBookList(account)
 
 
 def handleReturn(account):
-    id_str = input("IDs of the book (use comma to separate IDs)")
+    print("Use comma to separate IDs if more than one book is involved.")
+    id_str = input("IDs of the book you would like to return: ").upper()
     id_str = id_str.replace(' ', '')
     id_list = id_str.split(',')
+    print(id_list)
     account.returnBooks(id_list)
+    # account.returnBooks(['FN003'])
 
 
 def newBookToLibrary():
-    book_id = input('ID for the new book: ')
+    book_id = input('ID for the new book: ').upper()
     book_name = input('Name of the new book: ')
     book_author = input('Author of the new book: ')
     if Library.addBook(book_id, book_name, book_author):
+        showLibrary()
         print('Book added successfully.')
     else:
         print('Failed to add the book.')
@@ -181,29 +203,51 @@ def newBookToLibrary():
 
 
 def removeBookFromLibrary(account):
-    id_str = input("IDs of the book (use comma to separate IDs)")
+    id_str = input("IDs of the book (use comma to separate IDs):").upper()
     id_str = id_str.replace(' ', '')
     id_list = id_str.split(',')
     Library.removeBooks(id_list, account)
 
 
+def showLibrary():
+    print(Library.getAllRecords())
+
+
 def handleOperations(action_code, account):
-    if action_code == '1':
+    if action_code == main_menu["Book list"]:
         print(Library.getAllRecords())
-    elif action_code == '2':
+
+    elif action_code == main_menu["Show my books"]:
+        showUerBookList(account)
+
+    elif action_code == main_menu["Search"]:
         handleSearch()
-    elif action_code == '3':
+
+    elif action_code == main_menu["Borrow"]:
+        showLibrary()
         handleBorrow(account)
-    elif action_code == '4':
+
+    elif action_code == main_menu["Return"]:
+        showUerBookList(account)
         handleReturn(account)
-    elif action_code == '5':
+
+    elif action_code == main_menu["Add book to library"]:
         newBookToLibrary()
-    elif action_code == '6':
+
+    elif action_code == main_menu["Remove book from library"]:
         removeBookFromLibrary(account)
-    elif action_code == '7':
+        showLibrary()
+
+    elif action_code == main_menu["Exit"]:
         return True
-    elif action_code == '8':
-        showMainMenu()
+
+    else:
+        print("Please enter a valid command.")
+
+
+def showUerBookList(account):
+    print("Your borrowed books:")
+    print(Library.getBookRecordByOwner(account.Username))
 
 
 def main():
@@ -215,17 +259,17 @@ def main():
     account = Account()
     while (account is None) or (account.Username == ""):
         showLoginMenu()
-        action_code = input("Enter action code: ")
+        action_code = input("Enter command: ")
         account = getAccountBy(action_code)
     print('\nLogin successfully.')
     print(f'Welcome {account.Username}')
 
     Library.loadLibrary()  # Init Library
-    showMainMenu()  # Show main menu
 
     terminated = False
     while not terminated:
-        action_code = input("Enter action code (8 to show menu):")
+        showMainMenu()
+        action_code = input("Enter command:")
         print()
         terminated = handleOperations(action_code, account)
 
@@ -233,8 +277,9 @@ def main():
 def returnTest():
     Library.loadLibrary()
     print(Library.getAllRecords())
-    ac = login()
-
+    ac = Account()
+    ac.login('jack', 'a')
+    # ac.borrowBooks(['LN001'])
     ac.returnBooks(['LN001'])
 
 

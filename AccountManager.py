@@ -64,6 +64,7 @@ class Account:
     def login(self, ac : str, pw : str):
         #User Exist?
         if not path.exists((ac + RuleManager.DataRule.ACCOUNT_FILE_FORMAT)):
+            print('ERROR::Please enter a correct username.')
             return False
         f = open(ac + RuleManager.DataRule.ACCOUNT_FILE_FORMAT)
         data = self.__base64decode(f.read()).split('\n')
@@ -71,6 +72,7 @@ class Account:
         md5pw = data[RuleManager.DataRule.ACCOUNT_PASSWORD_INDEX]
         #Password Correct?
         if not md5pw == self.__getMD5(pw):
+            print('ERROR::The password is incorrect.')
             return False
         #Initialize Data
         #1. Load All data to memory
@@ -94,7 +96,10 @@ class Account:
             elif book.Owner != self.Username:
                 print('ERROR :: Fail to return Book ID: ' + id + '\nYou have not borrowed this book.' + '\n')
                 continue
-            self.MyBookList.remove(book)
+            try:
+                self.MyBookList.remove(book)
+            except:
+                pass
             # Update book status in Library
             Library.setBookStatus(id)
             counter += 1

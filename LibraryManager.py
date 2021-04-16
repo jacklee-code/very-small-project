@@ -40,7 +40,7 @@ class Library:
     @classmethod
     def getBookByID(cls, id : str):
         for book in cls.BookList:
-            if book.ID == id:
+            if book.ID == id.upper():
                 return book
         return None
 
@@ -64,7 +64,15 @@ class Library:
     def getBookRecordByID(cls, id : str):
         records = rule.OutputRule.getLibraryHeader()
         for book in cls.BookList:
-            if id.lower() in book.ID.lower():
+            if id.upper() in book.ID:
+                records += book.getRecord() + '\n'
+        return records[:-1]  # Remove the last \n
+
+    @classmethod
+    def getBookRecordByOwner(cls, owner: str):
+        records = rule.OutputRule.getLibraryHeader()
+        for book in cls.BookList:
+            if owner == book.Owner:
                 records += book.getRecord() + '\n'
         return records[:-1]  # Remove the last \n
 
