@@ -22,12 +22,8 @@ from AccountManager import Account
 from LibraryManager import Library
 from collections import OrderedDict
 
-import RuleManager as rule
-import os
 
-
-########## TEST FUNCTION #######################
-# This is for test and create account
+################Login and Registration#################################
 def register():
     while True:
         account = Account()
@@ -47,29 +43,7 @@ def login():
             return account
         print('Login Fail. Please Retry\n')
 
-
-###############################################
-
-
-####This is just for me to test if my function works
-def test():
-    Library.loadLibrary()
-    print(Library.getAllRecords())
-    ac = login()
-
-    ac.borrowBooks(['LN001', 'I am Error Book', 'DS001', 'DS003'])
-
-    print('My current book')
-    print(rule.OutputRule.getLibraryHeader())
-    for i in ac.MyBookList:
-        print(i.getRecord())
-    print()
-
-    print('Search Book')
-    print(Library.getBookRecordByAuthor('RowLing'))
-
-
-################END test section#################################
+################Login and Registration#################################
 
 login_menu = {
     "Register": "1",
