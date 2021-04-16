@@ -49,10 +49,10 @@ class Book:
 
     #Convert a string 'ID;NAME;Author;...' to Book
     def loadThisBook(self, string):
-        texts = string.split(';')
-        self.__lazyList.clear()
-        for text in texts:
-            self.__lazyList.append(text)
+            texts = string.split(';')
+            self.__lazyList.clear()
+            for text in texts:
+                self.__lazyList.append(text)
 
     #Get formatted String Record | ID |  Name  | Author |
     def getRecord(self):

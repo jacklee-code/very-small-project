@@ -96,5 +96,6 @@ class Library:
                 print('ERROR :: Fail to remove Book ID: ' + id + '\nPlease enter the correct id\n')
                 continue
             cls.BookList.remove(bookPointer)
+            print(f'BookID:{id} removed.')
         account.refreshBookList()
         cls.saveLibrary()
